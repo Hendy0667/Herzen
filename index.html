@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Für Mia ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            background: white;
+        }
+        canvas {
+            display: block;
+        }
+        .text {
+            position: absolute;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            text-align: center;
+            width: 100%;
+            pointer-events: none;
+            color: black;
+        }
+        #love1 {
+            top: 40px;
+            font-size: 28px;
+        }
+        #love2 {
+            top: 40px;
+            right: 40px;
+            font-size: 28px;
+            position: absolute;
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="c"></canvas>
+
+<div id="love1" class="text">Ich liebe dich ❤️</div>
+<div id="love2" class="text">für immer ❤️</div>
+
+<script>
+    const canvas = document.getElementById("c");
+    const ctx = canvas.getContext("2d");
+
+    // Größe setzen
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resize();
+    window.onresize = resize;
+
+    // Herz zeichnen
+    function drawHeart(x, y, size, color) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.scale(size, size);
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.bezierCurveTo(-50, -50, -120, 40, 0, 120);
+        ctx.bezierCurveTo(120, 40, 50, -50, 0, 0);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.restore();
+    }
+
+    // Feste Herzen
+    drawHeart(200, canvas.height / 2, 1.4, "red");
+    drawHeart(canvas.width - 200, canvas.height / 2, 1.4, "red");
+
+    // Endlos neue Herzen
+    function loop() {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const size = 0.2 + Math.random() * 0.5;
+
+        drawHeart(x, y, size, "pink");
+
+        // Text "und immer"
+        ctx.font = `${20 * size}px Arial`;
+        ctx.fillStyle = "black";
+        ctx.textAlign = "center";
+        ctx.fillText("und immer ❤️", x, y - size * 90);
+
+        setTimeout(loop, 300);
+    }
+
+    setTimeout(loop, 1000);
+</script>
+
+</body>
+</html>
